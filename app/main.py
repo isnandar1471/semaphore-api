@@ -1,16 +1,18 @@
-import os
+# tensorflow==2.12.0
 
-# os.system("conda activate py3_10_11")
+import os
 
 from fastapi import FastAPI, HTTPException, UploadFile, File
 from starlette.responses import Response
-from tensorflow.keras.models import load_model
+
+# from tensorflow.keras.models import load_model
 from numpy import argmax
 
 from platform import python_version
 from numpy import __version__ as np_version
-from tensorflow import __version__ as tf_version
-from tensorflow.keras import __version__ as keras_version
+
+# from tensorflow import __version__ as tf_version
+# from tensorflow.keras import __version__ as keras_version
 from matplotlib import __version__ as mtlp_version
 import matplotlib.pyplot as plt
 
@@ -26,8 +28,8 @@ def root():
         "message": "Fast API in Python",
         "python_version": python_version(),
         "np_version": np_version,
-        "tf_version": tf_version,
-        "keras_version": keras_version,
+        # "tf_version": tf_version,
+        # "keras_version": keras_version,
         "mtlp_version": mtlp_version,
     }
 
@@ -47,15 +49,15 @@ def predict_image(file: UploadFile | None = None):
         "rb",
     ) as f:
         print("passed")
-        model = load_model(f)
+        # model = load_model(f)
 
-    result = model.predict("app/asset/kelas1_5.png")
-    predicted_value = argmax(result)
+    # result = model.predict("app/asset/kelas1_5.png")
+    # predicted_value = argmax(result)
 
     return {
         # "hasil": classes[predicted_value],
         "classes": classes,
-        "predicted_value": predicted_value,
+        # "predicted_value": predicted_value,
     }
 
 

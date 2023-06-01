@@ -4,3 +4,4 @@ fastapi
 starlette
 uvicorn
 python-multipart
+tensorflow==2.12.0

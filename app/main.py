@@ -2,6 +2,8 @@ import time
 import shutil
 import numpy
 import os
+import logging
+import datetime
 
 import matplotlib
 import tensorflow
@@ -14,13 +16,25 @@ import uvicorn
 # from app.db.models import UserAnswer
 # from app.api import api
 
+
+today = datetime.date.today()
+
+logging.basicConfig(
+    filename="log/{today}.log",
+    format="%(asctime)s %(message)s",
+    filemode="w",
+)
+logger = logging.getLogger()
+logger.setLevel(logging.DEBUG)
+
 app = fastapi.FastAPI()
 
 
 @app.get(
     "/",
 )
-def root():
+def root(request: fastapi.Request):
+    logger.info("{request.client.host} accessing /")
     return {
         "message": "Fast API in Python",
         "python_version": platform.python_version(),
@@ -35,6 +49,7 @@ def root():
     "/semaphores/predict",
 )
 def predict_image(file: fastapi.UploadFile | None = None):
+    logger.info("{request.client.host} accessing /semaphores/predict")
     if file == None:
         return {"msg": "file tidak ada"}
 

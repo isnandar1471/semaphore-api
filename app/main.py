@@ -1,22 +1,20 @@
 import time
 import shutil
-
-# import os
 import numpy
+import os
 
-# import matplotlib.pyplot as plt
+import matplotlib
 import tensorflow
-from starlette.responses import Response
-from platform import python_version
+import starlette
+import platform
 import numpy
-from numpy import __version__ as np_version
-from matplotlib import __version__ as mtlp_version
-from fastapi import FastAPI, HTTPException, UploadFile, File
+import fastapi
+import uvicorn
 
 # from app.db.models import UserAnswer
 # from app.api import api
 
-app = FastAPI()
+app = fastapi.FastAPI()
 
 
 @app.get(
@@ -25,28 +23,26 @@ app = FastAPI()
 def root():
     return {
         "message": "Fast API in Python",
-        "python_version": python_version(),
-        "np_version": np_version,
+        "python_version": platform.python_version(),
+        "np_version": numpy.__version__,
         "tf_version": tensorflow.__version__,
         "keras_version": tensorflow.keras.__version__,
-        "mtlp_version": mtlp_version,
+        "mtlp_version": matplotlib.__version__,
     }
 
 
 @app.post(
     "/semaphores/predict",
 )
-def predict_image(file: UploadFile | None = None):
+def predict_image(file: fastapi.UploadFile | None = None):
     if file == None:
-        return HTTPException(status_code=400, detail={"msg": "file tidak ada"})
+        return {"msg": "file tidak ada"}
 
     now = time.time()
     filepath = f"app/asset/upload/{now}.jpg"
 
     with open(filepath, "wb") as buffer:
         shutil.copyfileobj(file.file, buffer)
-
-    # return {"msg": "file ada", "filename": file.filename}
 
     classes = [chr(x) for x in range(65, 90 + 1)]
 
@@ -65,6 +61,9 @@ def predict_image(file: UploadFile | None = None):
     predicted_value = numpy.argmax(result)
 
     return {
-        # "classes": classes,
         "predicted_value": classes[predicted_value],
     }
+
+
+if __name__ == "__main__":
+    uvicorn.run(app, host="0.0.0.0", port=8000)

@@ -1,8 +1,8 @@
 numpy==1.22.4
 matplotlib==3.7.1
+tensorflow==2.12.0
 fastapi
 starlette
 uvicorn
 python-multipart
-tensorflow==2.12.0
 opencv-python

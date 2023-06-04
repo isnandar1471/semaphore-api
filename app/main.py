@@ -1,5 +1,3 @@
-# tensorflow==2.12.0
-
 import os
 
 from fastapi import FastAPI, HTTPException, UploadFile, File
@@ -38,19 +36,11 @@ def root():
 
 @app.post("/semaphores/predict")
 def predict_image(file: UploadFile | None = None):
-    # if file == None:
-    #     return {"msg": "file tidak ada"}
-
-    # return {"msg": "file ada", "filename": file.filename}
+    if file == None:
+        return {"msg": "file tidak ada"}
 
     classes = [chr(x) for x in range(65, 90 + 1)]
 
-    # with open(
-    #     "app/asset/2023-05-28@15-37-33__epoch@{epoch_02d}__loss@{loss}__accuracy@{accuracy}__val_loss@{val_loss}__val_accuracy@{val_accuracy_.2f}__finish.hdf5",
-    #     # "app/asset/2023-05-29@09-21-32__epoch@{epoch_02d}__loss@{loss}__accuracy@{accuracy}__val_loss@{val_loss}__val_accuracy@{val_accuracy_.2f}__finish.h5",
-    #     "rb",
-    # ) as f:
-    #     print("passed")
     model = load_model(
         "app/asset/2023-05-28@15-37-33__epoch@{epoch_02d}__loss@{loss}__accuracy@{accuracy}__val_loss@{val_loss}__val_accuracy@{val_accuracy_.2f}__finish.hdf5"
     )
@@ -66,7 +56,11 @@ def predict_image(file: UploadFile | None = None):
     predicted_value = argmax(result)
 
     return {
-        # "hasil": classes[predicted_value],
-        "classes": classes,
         "predicted_value": classes[predicted_value],
     }
+
+
+if __name__ == "__main__":
+    uvicorn.run(app, host="0.0.0.0", port=8000)
+
+

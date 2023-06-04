@@ -34,7 +34,7 @@ app = fastapi.FastAPI()
     "/",
 )
 def root(request: fastapi.Request):
-    logger.info("{request.client.host} accessing /")
+    logger.info(f"{request.client.host} accessing /")
     return {
         "message": "Fast API in Python",
         "python_version": platform.python_version(),
@@ -48,8 +48,8 @@ def root(request: fastapi.Request):
 @app.post(
     "/semaphores/predict",
 )
-def predict_image(file: fastapi.UploadFile | None = None):
-    logger.info("{request.client.host} accessing /semaphores/predict")
+def predict_image(request: fastapi.Request, file: fastapi.UploadFile | None = None):
+    logger.info(f"{request.client.host} accessing /semaphores/predict")
     if file == None:
         return {"msg": "file tidak ada"}
 
@@ -65,7 +65,9 @@ def predict_image(file: fastapi.UploadFile | None = None):
         "app/asset/2023-05-28@15-37-33__epoch@{epoch_02d}__loss@{loss}__accuracy@{accuracy}__val_loss@{val_loss}__val_accuracy@{val_accuracy_.2f}__finish.hdf5"
     )
 
-    test_img = tensorflow.keras.preprocessing.image.load_img(filepath)
+    test_img = tensorflow.keras.preprocessing.image.load_img(
+        filepath, target_size=(256, 128)
+    )
     test_img = tensorflow.keras.preprocessing.image.img_to_array(test_img)
     test_img /= 255.0
 
@@ -81,4 +83,4 @@ def predict_image(file: fastapi.UploadFile | None = None):
 
 
 if __name__ == "__main__":
-    uvicorn.run(app, host="0.0.0.0", port=8000)
+    uvicorn.run(app, host="0.0.0.0", port=8000, reload=True)

@@ -1,3 +1,7 @@
+app/asset/upload/*.jpg
+
+# ==================================================================================================== #
+
 # You can generate this gitignore by `npx gitignore python`
 
 # Byte-compiled / optimized / DLL files

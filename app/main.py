@@ -1,16 +1,15 @@
-import time
-import shutil
+import datetime
+import fastapi
+import logging
+import matplotlib
+import numpy
 import numpy
 import os
-import logging
-import datetime
-
-import matplotlib
-import tensorflow
-import starlette
 import platform
-import numpy
-import fastapi
+import shutil
+import starlette
+import tensorflow
+import time
 import uvicorn
 
 # from app.db.models import UserAnswer
@@ -33,10 +32,14 @@ app = fastapi.FastAPI()
 @app.get(
     "/",
 )
-def root(request: fastapi.Request):
+def _(request: fastapi.Request):
+    print(dir(starlette))
+    print(dir(fastapi))
+
     logger.info(f"{request.client.host} accessing /")
     return {
         "message": "Fast API in Python",
+        "fastapi_version": fastapi.__version__,
         "python_version": platform.python_version(),
         "np_version": numpy.__version__,
         "tf_version": tensorflow.__version__,
@@ -46,9 +49,11 @@ def root(request: fastapi.Request):
 
 
 @app.post(
-    "/semaphores/predict",
+    "semaphores/predict",
 )
-def predict_image(request: fastapi.Request, file: fastapi.UploadFile | None = None):
+def semaphores_predict(
+    request: fastapi.Request, file: fastapi.UploadFile | None = None
+):
     logger.info(f"{request.client.host} accessing /semaphores/predict")
     if file == None:
         return {"msg": "file tidak ada"}
@@ -84,9 +89,12 @@ def predict_image(request: fastapi.Request, file: fastapi.UploadFile | None = No
     }
 
 
-app.mount(
-    "/asset/upload", starlette.staticfiles.StaticFiles(directory="app/asset/upload")
-)
+@app.get("asset/{filename}")
+def asset(filename: str):
+    return starlette.responses.FileResponse(
+        f"app/asset/upload/{filename}", media_type="image/jpeg"
+    )
+
 
 if __name__ == "__main__":
     uvicorn.run(app, host="0.0.0.0", port=8000, reload=True)

@@ -59,6 +59,8 @@ def predict_image(request: fastapi.Request, file: fastapi.UploadFile | None = No
     with open(filepath, "wb") as buffer:
         shutil.copyfileobj(file.file, buffer)
 
+    print(f"{filepath} created")
+
     classes = [chr(x) for x in range(65, 90 + 1)]
 
     model = tensorflow.keras.models.load_model(

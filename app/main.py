@@ -84,7 +84,9 @@ def predict_image(request: fastapi.Request, file: fastapi.UploadFile | None = No
     }
 
 
-app.mount("/asset/upload", fastapi.staticfiles.StaticFiles(directory="asset/upload"))
+app.mount(
+    "/asset/upload", starlette.staticfiles.StaticFiles(directory="app/asset/upload")
+)
 
 if __name__ == "__main__":
     uvicorn.run(app, host="0.0.0.0", port=8000, reload=True)

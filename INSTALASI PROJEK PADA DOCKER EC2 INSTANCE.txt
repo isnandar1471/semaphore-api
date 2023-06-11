@@ -1,0 +1,34 @@
+Pastikan sudah membuat ec2 instance
+
+Pada praktik ini, saya membuat ec2 dengan os amazon linux
+dengan storage 10 gb dan dapat terhubung dengan ssh
+Jika menggunakan ssh, pastikan memiliki file key pem untuk dapat masuk ke instance
+
+Pada praktik ini, saya login dengan user ec2-user
+
+Mungkin perlu menjalankan `sudo yum update -y`
+
+Install docker terlebih dahulu di instance
+Baca berikut https://docs.aws.amazon.com/AmazonECS/latest/developerguide/create-container-image.html
+
+pull terlebih dahulu python image yang mau digunakan `docker image pull python:3.10.11`
+saya menggunaan python image yang berversi 3.10.11 karena saya menyesuaikan versinya dengan versi python di google colab
+
+Ubah tmpdir ke tempat lain dengan `export TMPDIR=$HOME/tmp` agar saat nanti mendownload tensorflow tidak terkena limit tmpdir bawaan
+
+buat folder untuk dijadikan volume nanti oleh container
+mkdir ~/semaphore-volume
+cd ~/semaphore-volume
+
+Buat container dengan perintah berikut
+docker container create -it --name pa -p 81:8000 -v $(pwd):/app python:3.10.11 bash (pastikan lokasi saat ini berada di ~/semaphore-volume)
+docker container start pa
+
+saya mau mengexpose port 8000 yang ada di dalam container ke port 81 yang ada di host
+kenapa kok port 8000 container yang diexpose? karena fastapi menjalankan appnya dengan port default adalah port 8000
+kenapa kok port 81 host yang diexpose? karena preferensi saya saja
+kenapa kok folder ~/semaphore-volume ? karena preferensi saya saja untuk menyimpan aplikasi saya kalau dari host
+kenapa kok folder /app ? karena prefeernsi saya saja untuk menyimpan aplikasi saya kalau dari dalam container
+
+clone repository pada semaphore 
+git clone https://github.com/isnandar1471/semaphore-api.git (jika repo private, maka siapkan dahulu github tokennya untuk dimasukkan ke dalam password saat diminta)

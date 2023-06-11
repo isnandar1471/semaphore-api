@@ -54,7 +54,7 @@ def get_backend_information(request: fastapi.Request):
 
 
 @app.post(
-    "semaphores/predict",
+    "/semaphores/predict",
 )
 def semaphores_predict(
     request: fastapi.Request, file: fastapi.UploadFile | None = None
@@ -94,7 +94,7 @@ def semaphores_predict(
     }
 
 
-@app.get("asset/{filename}")
+@app.get("/asset/{filename}")
 def asset(filename: str):
     return starlette.responses.FileResponse(
         f"app/asset/upload/{filename}", media_type="image/jpeg"

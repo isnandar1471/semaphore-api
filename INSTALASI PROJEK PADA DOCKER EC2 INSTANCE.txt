@@ -30,5 +30,23 @@ kenapa kok port 81 host yang diexpose? karena preferensi saya saja
 kenapa kok folder ~/semaphore-volume ? karena preferensi saya saja untuk menyimpan aplikasi saya kalau dari host
 kenapa kok folder /app ? karena prefeernsi saya saja untuk menyimpan aplikasi saya kalau dari dalam container
 
-clone repository pada semaphore 
+clone repository ke dalam semaphore-volume dari host 
 git clone https://github.com/isnandar1471/semaphore-api.git (jika repo private, maka siapkan dahulu github tokennya untuk dimasukkan ke dalam password saat diminta)
+
+saran, lakukan pengubahan kode dari semaphore-volume dari host saja, nggak perlu dari dalam container, seperti nge-pull
+
+download tensorflow package ke dalam semaphore-volume dari host
+wget https://files.pythonhosted.org/packages/3f/b2/33372601ed71fb41049642f8f6e1e142215e8b5c3463df434fc8885db278/tensorflow-2.12.0-cp310-cp310-manylinux_2_17_x86_64.manylinux2014_x86_64.whl
+kenapa? karena jika langsung menginstall tensorflow pakai `pip install tensorflow==2.12.0`, entah kenapa instalasi akan stuck saat 99%.
+
+masuk ke folder /app pada container
+lalu install file tensorflow-2.12.0-cp310-cp310-manylinux_2_17_x86_64.manylinux2014_x86_64.whl tersebut
+pip install tensorflow-2.12.0-cp310-cp310-manylinux_2_17_x86_64.manylinux2014_x86_64.whl
+
+masuk ke folder /app/semaphore-api pada container
+install python package lain dengan skrip berikut
+pip install -r requirements.txt
+
+jalankan pm3 daemon
+`pm3 daemon start`
+

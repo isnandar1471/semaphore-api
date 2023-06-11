@@ -11,6 +11,7 @@ import starlette
 import tensorflow
 import time
 import uvicorn
+import subprocess
 
 # from app.db.models import UserAnswer
 # from app.api import api
@@ -32,12 +33,16 @@ app = fastapi.FastAPI()
 @app.get(
     "/",
 )
-def _(request: fastapi.Request):
-    print(dir(starlette))
-    print(dir(fastapi))
+def get_backend_information(request: fastapi.Request):
+    """
+    Get backend information
+    """
 
     logger.info(f"{request.client.host} accessing /")
     return {
+        "git describe --always": subprocess.check_output(
+            ["git", "describe", "--always"]
+        ),
         "message": "Fast API in Python",
         "fastapi_version": fastapi.__version__,
         "python_version": platform.python_version(),

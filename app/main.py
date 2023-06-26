@@ -83,7 +83,7 @@ def predict_image(request: fastapi.Request, file: fastapi.UploadFile | None = No
     test_img /= 255.0
 
     x = test_img[numpy.newaxis, ...]
-    x = tensorflow.keras.applications.vgg16.preprocess_input(x)
+    # x = tensorflow.keras.applications.vgg16.preprocess_input(x) # entah kenapa kalo pake ini malah hasilnya banyak yang salah 🤣
 
     # mengubah prediksi menjadi top-k
     result = model.predict(x)

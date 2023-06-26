@@ -56,9 +56,7 @@ def get_backend_information(request: fastapi.Request):
 @app.post(
     "/semaphores/predict",
 )
-def semaphores_predict(
-    request: fastapi.Request, file: fastapi.UploadFile | None = None
-):
+def predict_image(request: fastapi.Request, file: fastapi.UploadFile | None = None):
     logger.info(f"{request.client.host} accessing /semaphores/predict")
     if file == None:
         return {"msg": "file tidak ada"}
@@ -73,8 +71,9 @@ def semaphores_predict(
 
     classes = [chr(x) for x in range(65, 90 + 1)]
 
+    # TODO: mengubah menjadi pencarian berdasarkan regex agar lebih mudah
     model = tensorflow.keras.models.load_model(
-        "app/asset/2023-05-28@15-37-33__epoch@{epoch_02d}__loss@{loss}__accuracy@{accuracy}__val_loss@{val_loss}__val_accuracy@{val_accuracy_.2f}__finish.hdf5"
+        "app/asset/kagglenotebook_mdl-vgg16_2023-06-23@18-11-41.hdf5"
     )
 
     test_img = tensorflow.keras.preprocessing.image.load_img(
@@ -84,8 +83,9 @@ def semaphores_predict(
     test_img /= 255.0
 
     x = test_img[numpy.newaxis, ...]
-    x = tensorflow.keras.applications.resnet50.preprocess_input(x)
+    x = tensorflow.keras.applications.vgg16.preprocess_input(x)
 
+    # mengubah prediksi menjadi top-k
     result = model.predict(x)
     predicted_value = numpy.argmax(result)
 
@@ -95,7 +95,7 @@ def semaphores_predict(
 
 
 @app.get("/asset/{filename}")
-def asset(filename: str):
+def get_uploaded_image_by_filename(filename: str):
     return starlette.responses.FileResponse(
         f"app/asset/upload/{filename}", media_type="image/jpeg"
     )

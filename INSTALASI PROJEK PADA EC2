@@ -2,6 +2,8 @@ bikin ec2
 konek ke ec2
 
 pindah tmpdir
+nano .bashrc
+export TMPDIR="$HOME/tmp"
 
 install git, pip
 

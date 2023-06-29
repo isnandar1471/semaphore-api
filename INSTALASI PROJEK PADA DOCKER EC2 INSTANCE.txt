@@ -30,7 +30,7 @@ kenapa kok port 81 host yang diexpose? karena preferensi saya saja
 kenapa kok folder ~/semaphore-volume ? karena preferensi saya saja untuk menyimpan aplikasi saya kalau dari host
 kenapa kok folder /app ? karena prefeernsi saya saja untuk menyimpan aplikasi saya kalau dari dalam container
 
-clone repository ke dalam semaphore-volume dari host 
+clone repository ke dalam semaphore-volume dari host
 git clone https://github.com/isnandar1471/semaphore-api.git (jika repo private, maka siapkan dahulu github tokennya untuk dimasukkan ke dalam password saat diminta)
 
 saran, lakukan pengubahan kode dari semaphore-volume dari host saja, nggak perlu dari dalam container, seperti nge-pull
@@ -51,4 +51,4 @@ jalankan pm3 daemon
 `pm3 daemon start`
 
 
-pm3 new "uvicorn app.main:app --reload --host 0.0.0.0" --cwd "/app/semaphore-api"
+pm3 new "python main.py" --cwd "/app/semaphore-api"

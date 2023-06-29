@@ -46,8 +46,12 @@ def get_backend_information(request: fastapi.Request) -> JSONResponse:
     last_commit_id: bytes = subprocess.check_output(["git", "describe", "--always"])
     last_commit_id: str = last_commit_id.decode().strip()
 
+    system_spec: bytes = subprocess.check_output(["cat", "/etc/*release"])
+    system_spec: str = system_spec.decode().strip()
+
     response = {
         "last_commit_id": last_commit_id,
+        "system_spec": system_spec,
         "fastapi_version": fastapi.__version__,
         "python_version": python_version(),
         "np_version": numpy.__version__,

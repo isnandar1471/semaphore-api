@@ -2,6 +2,7 @@ import os
 
 
 import keras
+
 # import keras.src.engine.functional
 import numpy
 import tensorflow
@@ -13,6 +14,7 @@ from ..config import constant
 
 # model: keras.src.engine.functional.Functional = keras.models.load_model(os.getenv("APP_MODEL_HDF5_PATH"))
 model = keras.models.load_model(os.getenv("APP_MODEL_HDF5_PATH"))
+
 
 def predict_image(filepath: str):
     test_img = keras.preprocessing.image.load_img(filepath, target_size=(256, 128))
@@ -31,7 +33,7 @@ def predict_image(filepath: str):
     dict_class_entries.sort(0)
 
     base_url = os.getenv("APP_HTTP_URL_PUBLIC", "http://127.0.0.1")
-    predictionOut = response_schema.PredictionOut(image_url=f"{base_url}/a/{filepath}")
+    predictionOut = response_schema.PredictionOut(image_url=f"{base_url}/a/{os.path.basename(filepath)}")
     for idx, val in numpy.ndenumerate(top_k_scores):
         predictionOut.ranking.append(
             base_schema.Ranking(

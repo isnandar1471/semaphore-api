@@ -130,10 +130,10 @@ def post_article(
 @router.patch("/article/{id}")
 def update_article_by_id(
     id: str,
-    title: typing.Annotated[str | None, fastapi.Form()] = None,
-    cover_url: typing.Annotated[str | None, fastapi.Form()] = None,
-    description: typing.Annotated[str | None, fastapi.Form()] = None,
-    article_url: typing.Annotated[str | None, fastapi.Form()] = None,
+    title: typing.Annotated[typing.Optional[str], fastapi.Form()] = None,
+    cover_url: typing.Annotated[typing.Optional[str], fastapi.Form()] = None,
+    description: typing.Annotated[typing.Optional[str], fastapi.Form()] = None,
+    article_url: typing.Annotated[typing.Optional[str], fastapi.Form()] = None,
 ):
     is_success = article_service.update_one_by_id(
         uuid.UUID(hex=id),

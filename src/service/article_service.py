@@ -60,15 +60,15 @@ def select_latest_article(total: int):
 
 def update_one_by_id(
     id: uuid.UUID,
-    title: typing.Optional[article_model.ArticleModel.title],
-    cover_url: typing.Optional[article_model.ArticleModel.cover_url],
-    description: typing.Optional[article_model.ArticleModel.description],
-    article_url: typing.Optional[article_model.ArticleModel.article_url],
+    title: article_model.ArticleModel.title | None,
+    cover_url: article_model.ArticleModel.cover_url | None,
+    description: article_model.ArticleModel.description | None,
+    article_url: article_model.ArticleModel.article_url | None,
 ):
     #     engine = sqlalchemy.create_engine(constant.DATABASE_URL_ENGINE)
     #     session = sqlalchemy.orm.Session(engine)
 
-    typing.Optional[current_article : article_model.ArticleModel] = session.query(article_model.ArticleModel).get(id)
+    current_article: article_model.ArticleModel | None = session.query(article_model.ArticleModel).get(id)
 
     if not current_article:
         return False
@@ -133,7 +133,7 @@ def delete_by_id(id: uuid.UUID):
 
     is_success = False
     try:
-        article_to_delete: typing.Optional[article_model.ArticleModel] = session.query(article_model.ArticleModel).get(id)
+        article_to_delete: article_model.ArticleModel | None = session.query(article_model.ArticleModel).get(id)
         if article_to_delete:
             session.delete(article_to_delete)
             session.commit()

@@ -23,7 +23,7 @@ class BackendInformationOut(base_schema.BaseSchema):
 
 
 class PredictionOut(base_schema.BaseSchema):
-    image_url: str
+    filename: str
     ranking: list[base_schema.Ranking] = []
 
 

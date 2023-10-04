@@ -32,8 +32,7 @@ def predict_image(filepath: str):
     top_k_scores.sort(0)
     dict_class_entries.sort(0)
 
-    base_url = os.getenv("APP_HTTP_URL_PUBLIC", "http://127.0.0.1")
-    predictionOut = response_schema.PredictionOut(image_url=f"{base_url}/a/{os.path.basename(filepath)}")
+    predictionOut = response_schema.PredictionOut(filename=os.path.basename(filepath))
     for idx, val in numpy.ndenumerate(top_k_scores):
         predictionOut.ranking.append(
             base_schema.Ranking(

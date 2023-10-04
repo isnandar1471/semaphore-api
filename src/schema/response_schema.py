@@ -1,5 +1,5 @@
 from . import base_schema
-
+import typing
 
 class ArticleOut(base_schema.BaseSchema):
     id: str
@@ -8,7 +8,7 @@ class ArticleOut(base_schema.BaseSchema):
     description: str
     article_url: str
     created_at: int
-    updated_at: int | None
+    updated_at: typing.Optional[int] = None
 
 
 class BackendInformationOut(base_schema.BaseSchema):

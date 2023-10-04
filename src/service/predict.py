@@ -2,7 +2,7 @@ import os
 
 
 import keras
-import keras.src.engine.functional
+# import keras.src.engine.functional
 import numpy
 import tensorflow
 
@@ -11,8 +11,8 @@ from ..schema import base_schema, response_schema
 from ..config import constant
 
 
-model: keras.src.engine.functional.Functional = keras.models.load_model(os.getenv("APP_MODEL_HDF5_PATH"))
-
+# model: keras.src.engine.functional.Functional = keras.models.load_model(os.getenv("APP_MODEL_HDF5_PATH"))
+model = keras.models.load_model(os.getenv("APP_MODEL_HDF5_PATH"))
 
 def predict_image(filepath: str):
     test_img = keras.preprocessing.image.load_img(filepath, target_size=(256, 128))

@@ -33,9 +33,8 @@ def predict_image(file: fastapi.UploadFile, request: fastapi.Request):
 
     logger.logger.info(f"{request.client.host} accessing {request.url.path}")
 
-    current_datetime = datetime.datetime.now()
-    formated_datetime = current_datetime.strftime("%Y-%m-%d %H-%M-%S %f")
-    filepath = f"assets/uploads/{formated_datetime}.jpg"
+    file_id = uuid.uuid4()
+    filepath = f"assets/uploads/{file_id}.jpg"
 
     write_image.write_image(file, filepath)
 
@@ -52,7 +51,7 @@ def predict_images(files: list[fastapi.UploadFile]):
 
     all_filepath: list[str] = []
     for idx, file in enumerate(files):
-        filepath = f"assets/uploads/{file_id.hex} {idx}.jpg"
+        filepath = f"assets/uploads/{file_id.hex}-{idx}.jpg"
 
         write_image.write_image(file, filepath)
 

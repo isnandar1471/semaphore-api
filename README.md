@@ -1,8 +1,12 @@
+catatan pekerjaan
+
+- apa istilahnya untuk di dart yg memasukan suatu type ke T di <T>
+
 # semaphore-api
 
 ## Tested in
 
--   Python 3.10.11
+- Python 3.10.11
 
 ## Clone the project
 
@@ -19,5 +23,7 @@ pip install -r requirements.txt
 ## Run app
 
 ```
-uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
+uvicorn src.app:app --reload --host 0.0.0.0 --port 8000
 ```
+
+python main.py

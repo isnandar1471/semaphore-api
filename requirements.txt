@@ -1,4 +1,4 @@
-numpy==1.22.4
+# numpy==1.22.4
 matplotlib==3.7.1
 # tensorflow==2.12.0 # install manual
 fastapi
@@ -7,3 +7,9 @@ uvicorn
 python-multipart
 opencv-python
 pm3
+
+# pydantic # indirect
+# sqlalchemy
+# alembic
+# pymysql
+# python_dotenv

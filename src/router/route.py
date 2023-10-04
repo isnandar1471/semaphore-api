@@ -48,12 +48,11 @@ def predict_images(files: list[fastapi.UploadFile]):
     Prediksi beberapa gambar sekaligus
     """
 
-    current_datetime = datetime.datetime.now()
-    formated_datetime = current_datetime.strftime("%Y-%m-%d %H-%M-%S %f")
+    file_id = uuid.uuid4()
 
     all_filepath: list[str] = []
     for idx, file in enumerate(files):
-        filepath = f"assets/uploads/{formated_datetime} {idx}.jpg"
+        filepath = f"assets/uploads/{file_id.hex} {idx}.jpg"
 
         write_image.write_image(file, filepath)
 

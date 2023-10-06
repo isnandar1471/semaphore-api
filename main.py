@@ -8,7 +8,7 @@ import dotenv
 dotenv.load_dotenv()
 
 
-PORT = int(os.getenv("APP_SERVER_PORT", "8000"))
+PORT = int(os.getenv("APP_SERVER_PORT", "8888"))
 
 
 if __name__ == "__main__":

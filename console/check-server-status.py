@@ -16,6 +16,7 @@ is_success = False
 
 try:
     requests.get(f'http://127.0.0.1:{os.getenv("APP_SERVER_PORT", "8888")}/')
+    print("server on ready")
 except Exception as e:
     requests.get(f"https://api.telegram.org/bot6405514280:AAGs3xpeBAtoqAQqk-_-sUQqXGdhJ9nMOhY/sendMessage?chat_id=1150088790&text=servererror {e}")
     print("server error")

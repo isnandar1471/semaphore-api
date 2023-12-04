@@ -1,17 +1,23 @@
+"""
+halo
+"""
+
 import typing
+import time
+
+import uuid
+import sqlalchemy.orm
 
 
-import sqlalchemy
+import src.orm.base_orm
+import src.schema.base_schema
 
 
-from . import base_model
-
-
-class ArticleModel(base_model.BaseModel):
+class ArticleOrm(src.orm.base_orm.BaseOrm):
     __tablename__ = "article"
 
     id = sqlalchemy.Column(
-        sqlalchemy.Uuid,
+        sqlalchemy.CHAR(36),
         nullable=False,
         primary_key=True,
     )
@@ -37,16 +43,16 @@ class ArticleModel(base_model.BaseModel):
     )
 
     created_at = sqlalchemy.Column(
-        sqlalchemy.Integer,
+        sqlalchemy.Double,
         nullable=False,
-        server_default=sqlalchemy.text("unix_timestamp()"),
+        default=time.time,
     )
 
     updated_at = sqlalchemy.Column(
-        sqlalchemy.Integer,
+        sqlalchemy.Double,
         nullable=True,
-        server_default=sqlalchemy.text("null"),
-        server_onupdate=sqlalchemy.text("unix_timestamp()"),
+        default=None,
+        onupdate=time.time,
     )
 
     def __init__(
@@ -71,4 +77,18 @@ class ArticleModel(base_model.BaseModel):
         self.updated_at = updated_at
 
     def __repr__(self):
-        return f"Article(id={self.id!r}, title={self.title!r}, cover_url={self.cover_url!r}, description={self.description!r}, article_url={self.article_url!r}, created_at={self.created_at!r}, updated_at={self.updated_at!r})"
+        return f"ArticleModel{vars(self)}"
+
+
+class ArticleSchema(src.schema.base_schema.BaseSchema):
+    id: str
+    title: str
+    cover_url: str
+    description: str
+    article_url: str
+    created_at: float
+    updated_at: typing.Optional[float]
+
+    class Config:
+        # orm_mode = True
+        from_attributes = True

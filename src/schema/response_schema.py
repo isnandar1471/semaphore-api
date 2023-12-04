@@ -1,18 +1,20 @@
-from . import base_schema
 import typing
 
 
-class ArticleOut(base_schema.BaseSchema):
+import src.schema.base_schema
+
+
+class Article(src.schema.base_schema.BaseSchema):
     id: str
     title: str
     cover_url: str
     description: str
     article_url: str
     created_at: int
-    updated_at: int | None = None
+    updated_at: typing.Union[int, None] = None
 
 
-class BackendInformationOut(base_schema.BaseSchema):
+class BackEndInformation(src.schema.base_schema.BaseSchema):
     current_commit: str
     system_spec: str
     fastapi_version: str
@@ -22,10 +24,10 @@ class BackendInformationOut(base_schema.BaseSchema):
     keras_version: str
 
 
-class PredictionOut(base_schema.BaseSchema):
+class Prediction(src.schema.base_schema.BaseSchema):
     filename: str
-    ranking: list[base_schema.Ranking] = []
+    ranking: list[src.schema.base_schema.Ranking] = []
 
 
-class PredictionMultiOut(base_schema.BaseSchema):
-    result: list[PredictionOut] = []
+class PredictionMulti(src.schema.base_schema.BaseSchema):
+    result: list[Prediction] = []

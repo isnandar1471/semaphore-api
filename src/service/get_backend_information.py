@@ -8,7 +8,7 @@ import tensorflow
 import keras
 
 
-from ..schema import response_schema
+import src.schema.response_schema
 
 
 def get_backend_information():
@@ -24,7 +24,7 @@ def get_backend_information():
     except Exception as exception:
         print(exception)
 
-    return response_schema.BackendInformationOut(
+    return src.schema.response_schema.BackEndInformation(
         current_commit=CURRENT_COMMIT,
         system_spec=SYSTEM_SPEC,
         fastapi_version=fastapi.__version__,

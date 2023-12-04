@@ -1,17 +1,15 @@
 import logging.config
-import os
 
 
-import dotenv
 import sqlalchemy
 import alembic
 
 
-dotenv.load_dotenv(os.path.join(os.path.abspath(os.path.dirname(__file__)), "..", "..", ".env"))
+import src.config.constant
+import src.config.database
 
 
-URL_ENGINE = f"mysql+pymysql://{os.getenv('APP_DATABASE_USERNAME', 'root')}:{os.getenv('APP_DATABASE_PASSWORD', '')}@{os.getenv('APP_DATABASE_HOST', 'localhost')}:{os.getenv('APP_DATABASE_PORT', 3306)}/{os.getenv('APP_DATABASE_NAME', 'proyekakhir')}"
-
+URL_ENGINE = src.config.database.URL_ENGINE
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.

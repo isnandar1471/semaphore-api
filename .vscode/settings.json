@@ -2,5 +2,6 @@
   "[python]": {
     "editor.defaultFormatter": "ms-python.black-formatter"
   },
+  "turboConsoleLog.logFunction": "print",
   "python.formatting.provider": "none"
 }

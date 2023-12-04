@@ -1,14 +1,14 @@
 import uuid
 
 
-from ..model import article_model
-from ..schema import response_schema
+import src.schema.response_schema
+import src.orm.article
 
 
-def article_out(article: article_model.ArticleModel):
+def article_out(article: src.orm.article.ArticleOrm):
     article_id: uuid.UUID = article.id
 
-    return response_schema.ArticleOut(
+    return src.schema.response_schema.Article(
         id=article_id.hex,
         title=article.title,
         cover_url=article.cover_url,

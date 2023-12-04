@@ -1,0 +1,83 @@
+import os
+
+
+import dotenv
+
+
+dotenv.load_dotenv()
+
+
+APP_FASTAPI_DEBUG: bool = os.getenv("APP_FASTAPI_DEBUG", "false").lower() == "true"
+print(f"APP_FASTAPI_DEBUG {type(APP_FASTAPI_DEBUG)} {APP_FASTAPI_DEBUG}")
+
+APP_SERVER_PORT = int(os.getenv("APP_SERVER_PORT", "8888"))
+print(f"APP_SERVER_PORT {type(APP_SERVER_PORT)} {APP_SERVER_PORT}")
+
+
+APP_DATABASE_HOST = os.getenv("APP_DATABASE_HOST", "localhost")
+print(f"APP_DATABASE_HOST {type(APP_DATABASE_HOST)} {APP_DATABASE_HOST}")
+
+
+APP_DATABASE_PORT = int(os.getenv("APP_DATABASE_PORT", "3306"))
+print(f"APP_DATABASE_PORT {type(APP_DATABASE_PORT)} {APP_DATABASE_PORT}")
+
+
+APP_DATABASE_NAME = os.getenv("APP_DATABASE_NAME", "proyekakhir")
+print(f"APP_DATABASE_NAME {type(APP_DATABASE_NAME)} {APP_DATABASE_NAME}")
+
+
+APP_DATABASE_USERNAME = os.getenv("APP_DATABASE_USERNAME", "root")
+print(f"APP_DATABASE_USERNAME {type(APP_DATABASE_USERNAME)} {APP_DATABASE_USERNAME}")
+
+
+APP_DATABASE_PASSWORD = os.getenv("APP_DATABASE_PASSWORD", "")
+print(f"APP_DATABASE_PASSWORD {type(APP_DATABASE_PASSWORD)} {APP_DATABASE_PASSWORD}")
+
+
+APP_DATABASE_LOG_QUERY_IN_TERMINAL = os.getenv("APP_DATABASE_LOG_QUERY_IN_TERMINAL", "false").lower() == "true"
+print(f"APP_DATABASE_LOG_QUERY_IN_TERMINAL {type(APP_DATABASE_LOG_QUERY_IN_TERMINAL)} {APP_DATABASE_LOG_QUERY_IN_TERMINAL}")
+
+
+APP_MODEL_HDF5_PATH = os.getenv("APP_MODEL_HDF5_PATH", "").strip()
+if APP_MODEL_HDF5_PATH == "":
+    raise Exception("APP_MODEL_HDF5_PATH environment variable doesnt exist")
+print(f"APP_MODEL_HDF5_PATH {type(APP_MODEL_HDF5_PATH)} {APP_MODEL_HDF5_PATH}")
+
+
+APP_HTTP_URL_PUBLIC = os.getenv("APP_HTTP_URL_PUBLIC", "localhost")
+if APP_HTTP_URL_PUBLIC[-1] == "/":
+    APP_HTTP_URL_PUBLIC = APP_HTTP_URL_PUBLIC[0:-1]
+print(f"APP_HTTP_URL_PUBLIC {type(APP_HTTP_URL_PUBLIC)} {APP_HTTP_URL_PUBLIC}")
+
+
+APP_TELEGRAMBOT_URL = os.getenv("APP_TELEGRAMBOT_URL", "").strip()
+if APP_TELEGRAMBOT_URL == "":
+    raise Exception("APP_TELEGRAMBOT_URL environment variable doesnt exist")
+print(f"APP_TELEGRAMBOT_URL {type(APP_TELEGRAMBOT_URL)} {APP_TELEGRAMBOT_URL}")
+
+
+APP_JWT_SECRET = os.getenv("APP_JWT_SECRET", "").strip()
+if APP_JWT_SECRET == "":
+    raise Exception("APP_JWT_SECRET environment variable doesnt exist")
+print(f"APP_JWT_SECRET {type(APP_JWT_SECRET)} {APP_JWT_SECRET}")
+
+
+APP_JWT_EXP_DAYS = float(os.getenv("APP_JWT_EXP_DAYS", "1"))
+print(f"APP_JWT_EXP_DAYS {type(APP_JWT_EXP_DAYS)} {APP_JWT_EXP_DAYS}")
+
+
+APP_REFRESH_JWT_SECRET = os.getenv("APP_REFRESH_JWT_SECRET", "").strip()
+if APP_REFRESH_JWT_SECRET == "":
+    raise Exception("APP_REFRESH_JWT_SECRET environment variable doesnt exist")
+print(f"APP_REFRESH_JWT_SECRET {type(APP_REFRESH_JWT_SECRET)} {APP_REFRESH_JWT_SECRET}")
+
+
+APP_REFRESH_JWT_EXP_DAYS = float(os.getenv("APP_REFRESH_JWT_EXP_DAYS"))
+print(f"APP_REFRESH_JWT_EXP_DAYS {type(APP_REFRESH_JWT_EXP_DAYS)} {APP_REFRESH_JWT_EXP_DAYS}")
+
+
+APP_ENABLE_APIDOC: bool = os.getenv("APP_ENABLE_APIDOC", "false").lower() == "true"
+print(f"APP_ENABLE_APIDOC {type(APP_ENABLE_APIDOC)} {APP_ENABLE_APIDOC}")
+
+
+print("")

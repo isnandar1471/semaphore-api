@@ -7,9 +7,10 @@ import pydantic
 
 import src.config.environment
 import src.router.index
+import src.schema.base_schema
 
 
-class __OpenapiContact(pydantic.BaseModel):
+class __OpenapiContact(src.schema.base_schema.BaseSchema):
     name: typing.Optional[str]
     url: typing.Optional[str]
     email: typing.Optional[str]

@@ -5,8 +5,6 @@ import numpy
 import tensorflow
 import keras.utils
 import keras.models
-import keras.engine.functional
-
 
 import src.config.environment
 import src.config.constant
@@ -14,7 +12,7 @@ import src.schema.base_schema
 import src.schema.response_schema
 
 
-model: keras.engine.functional.Functional = keras.models.load_model(src.config.environment.APP_MODEL_HDF5_PATH)
+model = keras.models.load_model(src.config.environment.APP_MODEL_HDF5_PATH)
 
 
 def predict_image(filepath: str):

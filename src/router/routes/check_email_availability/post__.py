@@ -19,15 +19,15 @@ class __CheckEmailAvailability(src.schema.base_schema.Response):
 def check_email_availability(
     email: typing.Annotated[str, fastapi.Form()],
 ):
-    user_inst, error = src.service.user_service.find_user_by_email(email)
-    if error is not None:
+    is_success, user_inst, error = src.service.user_service.find_user_by_email(email)
+    if error != None:
         return __CheckEmailAvailability(
             message=f"server mengalami masalah: {error.args}",
             code=1,
             is_available=None,
         )
 
-    if user_inst is not None:
+    if user_inst != None:
         return __CheckEmailAvailability(
             message="email tidak tersedia",
             code=2,

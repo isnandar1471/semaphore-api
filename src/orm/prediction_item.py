@@ -13,13 +13,13 @@ class PredictionItemOrm(src.orm.base_orm.BaseOrm):
     __tablename__ = "prediction_item"
 
     id = sqlalchemy.Column(
-        sqlalchemy.Uuid,
+        sqlalchemy.CHAR[36],
         nullable=False,
         primary_key=True,
     )
 
     prediction_id = sqlalchemy.Column(
-        sqlalchemy.Uuid,
+        sqlalchemy.CHAR[36],
         nullable=False,
     )
 
@@ -61,7 +61,7 @@ class PredictionItemOrm(src.orm.base_orm.BaseOrm):
 
 
 class PredictionItemSchema(src.schema.base_schema.BaseSchema):
-    id: uuid.UUID
+    id: str
     prediction_result: str
     prediction_result_percentage: float
     file_name: str

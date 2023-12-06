@@ -27,7 +27,13 @@ router = fastapi.APIRouter()
 
 
 @router.post("/multi")
-def predict_images(files: typing.List[fastapi.UploadFile] = [], x_apikey: typing.Annotated[typing.Union[str, None], fastapi.Header(alias="X-API-KEY")] = None):
+def predict_images(
+    files: typing.List[fastapi.UploadFile] = [],
+    x_apikey: typing.Annotated[
+        typing.Union[str, None],
+        fastapi.Header(alias="X-API-KEY", description="data prediksi hanya akan disimpan ke database jika ini diisi"),
+    ] = None,
+):
     """
     Prediksi beberapa gambar sekaligus
     """
@@ -59,7 +65,16 @@ def predict_images(files: typing.List[fastapi.UploadFile] = [], x_apikey: typing
     for idx, file in enumerate(files):
         filepath = f"assets/uploads/{file_id}_{idx}_{caseconverter.snakecase(file.filename)}.jpg"
 
-        src.service.write_image.write_image(file, filepath)
+        is_success, error = src.service.write_image.write_image(file, filepath)
+
+        if is_success == False and error != None:
+            return fastapi.responses.JSONResponse(
+                content=src.schema.base_schema.Response(
+                    message=f"server error: {error.args}",
+                    code=1,
+                ).model_dump(),
+                status_code=http.HTTPStatus.INTERNAL_SERVER_ERROR,
+            )
 
         all_filepath.append(filepath)
 
@@ -72,8 +87,10 @@ def predict_images(files: typing.List[fastapi.UploadFile] = [], x_apikey: typing
 
             user_inst = session.query(src.orm.user.UserOrm).filter(src.orm.user.UserOrm.username == payload.username).first()
 
+            prediction_id = uuid.uuid4()
+
             prediction_inst = src.orm.prediction.PredictionOrm(
-                id=uuid.uuid4(),
+                id=f"{prediction_id}",
                 user_id=user_inst.id if user_inst != None else None,
                 model_name="kagglenotebook_mdl-vgg16_2023-06-23@18-11-41.hdf5",
                 user_feedback=None,
@@ -87,7 +104,7 @@ def predict_images(files: typing.List[fastapi.UploadFile] = [], x_apikey: typing
             prediction_items: typing.List[src.orm.prediction_item.PredictionItemOrm] = []
             for pred in predictionMultiOut.result:
                 prediction_item = src.orm.prediction_item.PredictionItemOrm(
-                    id=uuid.uuid4(),
+                    id=f"{uuid.uuid4()}",
                     prediction_id=prediction_inst.id,
                     prediction_result=pred.ranking[0].value,
                     prediction_result_percentage=pred.ranking[0].probability,
@@ -98,9 +115,12 @@ def predict_images(files: typing.List[fastapi.UploadFile] = [], x_apikey: typing
             session.add_all(prediction_items)
 
             session.commit()
+
+            predictionMultiOut.prediction_id = f"{prediction_id}"
         except Exception as e:
             print("🚀 ~ file: post__multi.py:91 ~ e:", e)
             session.rollback()
+            return str(e)
         finally:
             session.close()
 

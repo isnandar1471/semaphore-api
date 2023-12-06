@@ -20,7 +20,7 @@ router = fastapi.APIRouter()
 
 @router.get("/")
 def get_all_article():
-    is_success, all_articles, error = src.service.article_service.select_all()
+    is_success, all_articles, error = src.service.article_service.select_all(latest_first=True)
 
     if error != None:
         return fastapi.responses.JSONResponse(

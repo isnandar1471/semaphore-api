@@ -19,6 +19,7 @@ import src.router.routes.user.register.post__
 import src.router.routes.check_email_availability.post__
 import src.router.routes.check_username_availability.post__
 import src.router.routes.prediction.post__multi
+import src.router.routes.prediction.post__feedback
 import src.service.get_backend_information
 import src.service.write_image
 import src.service.predict
@@ -44,6 +45,7 @@ __check_username_availability_router.include_router(router=src.router.routes.che
 
 __prediction_multi = fastapi.APIRouter(prefix="/prediction")
 __prediction_multi.include_router(router=src.router.routes.prediction.post__multi.router)
+__prediction_multi.include_router(router=src.router.routes.prediction.post__feedback.router)
 
 import src.router.routes.guessing.new.get__
 import src.router.routes.guessing.file.get__

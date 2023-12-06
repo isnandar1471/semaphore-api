@@ -1,5 +1,7 @@
 import typing
 import time
+import enum
+
 
 import uuid
 import sqlalchemy
@@ -9,11 +11,16 @@ import src.orm.base_orm
 import src.schema.base_schema
 
 
+class user_feedback_enum(str, enum.Enum):
+    upvote = "upvote"
+    downvote = "downvote"
+
+
 class PredictionOrm(src.orm.base_orm.BaseOrm):
     __tablename__ = "prediction"
 
     id = sqlalchemy.Column(
-        sqlalchemy.Uuid,
+        sqlalchemy.CHAR(36),
         nullable=False,
         primary_key=True,
     )
@@ -30,7 +37,7 @@ class PredictionOrm(src.orm.base_orm.BaseOrm):
     )
 
     user_feedback = sqlalchemy.Column(
-        sqlalchemy.CHAR,
+        sqlalchemy.Enum(user_feedback_enum),
         nullable=True,
         default=None,
     )
@@ -79,8 +86,8 @@ class PredictionOrm(src.orm.base_orm.BaseOrm):
 
 
 class PredictionSchema(src.schema.base_schema.BaseSchema):
-    id: uuid.UUID
-    user_id: typing.Union[uuid.UUID, None]
+    id: str
+    user_id: typing.Union[str, None]
     model_name: str
     user_feedback: typing.Union[str, None]
     user_feedback_value: typing.Union[str, None]

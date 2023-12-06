@@ -7,6 +7,13 @@ catatan pekerjaan
 
 # semaphore-api
 
+# SSH
+
+```sh
+ssh -i "C:\Users\isnandar\Downloads\isnandar-keypair.pem" ubuntu@54.169.244.120
+
+```
+
 ## Tested in
 
 - Python 3.10.11

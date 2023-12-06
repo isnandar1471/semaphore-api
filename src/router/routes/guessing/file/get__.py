@@ -13,7 +13,9 @@ import src.config.constant
 router = fastapi.APIRouter()
 
 
-@router.get("/{guessing_id}")
+@router.get(
+    "/{guessing_id}",
+)
 def get_file_guessing(guessing_id: str):
     is_success, guessing_inst, error = src.service.guessing_service.get_guessing_by_id(guessing_id=guessing_id)
 
@@ -58,4 +60,7 @@ def get_file_guessing(guessing_id: str):
             status_code=400,
         )
 
-    return fastapi.responses.FileResponse(absolute_filepath, filename=f"{guessing_id}{os.path.splitext(guessing_inst.filepath)[1]}")
+    return fastapi.responses.FileResponse(
+        absolute_filepath,
+        filename=f"{guessing_id}{os.path.splitext(absolute_filepath)[1]}",
+    )

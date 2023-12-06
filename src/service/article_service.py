@@ -12,14 +12,17 @@ import src.orm.article
 import src.config.database
 
 
-def select_all() -> typing.Tuple[bool, typing.List[src.orm.article.ArticleOrm], typing.Union[Exception, None]]:
+def select_all(latest_first: bool = False) -> typing.Tuple[bool, typing.List[src.orm.article.ArticleOrm], typing.Union[Exception, None]]:
     session = src.config.database.SESSION_MAKER()
 
     is_success = False
     result = []
     error = None
     try:
-        result = session.query(src.orm.article.ArticleOrm).all()
+        query = session.query(src.orm.article.ArticleOrm)
+        if latest_first == True:
+            query = query.order_by(src.orm.article.ArticleOrm.created_at.desc())
+        result = query.all()
         is_success = True
     except Exception as e:
         error = e

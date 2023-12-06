@@ -31,3 +31,4 @@ class Prediction(src.schema.base_schema.BaseSchema):
 
 class PredictionMulti(src.schema.base_schema.BaseSchema):
     result: list[Prediction] = []
+    prediction_id: typing.Union[str, None] = None

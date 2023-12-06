@@ -15,7 +15,7 @@ import src.service.guessing_service
 import src.service.user_service
 import src.config.credential
 import src.config.environment
-
+import src.orm.user
 
 router = fastapi.APIRouter()
 
@@ -27,6 +27,7 @@ class OutNewGuessing(src.schema.base_schema.Response):
 @router.get("/")
 def new_guessing(x_apikey: typing.Annotated[typing.Union[str, None], fastapi.Header(alias="X-API-KEY")] = None):
     payload: typing.Union[src.config.credential.PayloadStructure, None] = None
+    user_inst: typing.Union[src.orm.user.UserSchema, None] = None
     if x_apikey != None:
         try:
             pl = jwt.decode(
@@ -47,7 +48,8 @@ def new_guessing(x_apikey: typing.Annotated[typing.Union[str, None], fastapi.Hea
                 "code": 2,
             }
 
-    src.service.user_service.find_user_by_username(username=payload)
+        is_success, user, error = src.service.user_service.find_user_by_username(username=payload.username)
+        user_inst = user
 
     error, choosed_char, arr_choosed_filepath = src.service.guessing_service.random_file()
 
@@ -66,7 +68,7 @@ def new_guessing(x_apikey: typing.Annotated[typing.Union[str, None], fastapi.Hea
         filepath=json.dumps(arr_choosed_filepath),
         actual_value=choosed_char,
         id=guessing_id,
-        user_id=None,
+        user_id=user_inst.id if user_inst != None else None,
         created_at=time.time(),
         predicted_value=None,
         predicted_at=None,

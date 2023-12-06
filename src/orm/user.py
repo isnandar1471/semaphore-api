@@ -16,7 +16,7 @@ class UserOrm(src.orm.base_orm.BaseOrm):
     __tablename__ = "user"
 
     id = sqlalchemy.Column(
-        type_=sqlalchemy.Uuid,
+        type_=sqlalchemy.CHAR(36),
         nullable=False,
         primary_key=True,
         default=uuid.uuid4,
@@ -231,7 +231,7 @@ class UserOrm(src.orm.base_orm.BaseOrm):
     ):
         super().__init__(**kwargs)
 
-        self.id = id if id is not None else uuid.uuid4()
+        self.id = str(id if id is not None else uuid.uuid4())
         self.username = username
         self.email = email
         self.registered_at = registered_at if registered_at is not None else time.time()
@@ -266,7 +266,7 @@ class UserOrm(src.orm.base_orm.BaseOrm):
 
 
 class UserSchema(src.schema.base_schema.BaseSchema):
-    id: uuid.UUID
+    id: str
     username: str
     email: str
     registered_at: float

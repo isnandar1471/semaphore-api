@@ -73,7 +73,7 @@ def register(
         )
 
     user = src.orm.user.UserOrm(
-        id=uuid.uuid4(),
+        id=f"{uuid.uuid4()}",
         username=username,
         email=email,
         registered_at=time.time(),

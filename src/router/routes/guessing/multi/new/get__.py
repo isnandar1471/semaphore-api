@@ -82,10 +82,10 @@ def new_multi_guessing(x_apikey: typing.Annotated[typing.Union[str, None], fasta
     )
     is_success, instant, error = src.service.multi_guessing_service.new_multi_guessing_from_instance(multi_guessing_inst=multi_guessing_inst)
 
-    if is_success == False or instant == None or error != None:
+    if is_success == False and instant == None and error != None:
         return fastapi.responses.JSONResponse(
             content=OutNewMultiGuessing(
-                message="gagal membuat tebakan",
+                message=f"gagal membuat tebakan: {str(error.args)}",
                 code=1,
                 data=None,
             ).model_dump(),

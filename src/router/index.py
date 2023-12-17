@@ -23,6 +23,9 @@ import src.router.routes.prediction.post__feedback
 import src.service.get_backend_information
 import src.service.write_image
 import src.service.predict
+import src.router.routes.guessing.multi.new.get__
+import src.router.routes.guessing.multi.predict.post__ID
+import src.router.routes.guessing.multi.files.get__ID
 
 __article_router = fastapi.APIRouter(prefix="/article")
 __article_router.include_router(router=src.router.routes.article.get__.router)
@@ -56,6 +59,12 @@ __guessing_router.include_router(prefix="/new", router=src.router.routes.guessin
 __guessing_router.include_router(prefix="/file", router=src.router.routes.guessing.file.get__.router)
 __guessing_router.include_router(prefix="/predict", router=src.router.routes.guessing.predict.post__ID.router)
 
+__multi_guessing_router = fastapi.APIRouter(prefix="/multi-guessing")
+__multi_guessing_router.include_router(prefix="/new", router=src.router.routes.guessing.multi.new.get__.router)
+__multi_guessing_router.include_router(prefix="/predict", router=src.router.routes.guessing.multi.predict.post__ID.router)
+__multi_guessing_router.include_router(prefix="/files", router=src.router.routes.guessing.multi.files.get__ID.router)
+
+
 router = fastapi.APIRouter()
 router.include_router(router=__article_router)
 router.include_router(router=__user_router)
@@ -63,6 +72,7 @@ router.include_router(router=__check_email_availability_router)
 router.include_router(router=__check_username_availability_router)
 router.include_router(router=__prediction_multi)
 router.include_router(router=__guessing_router)
+router.include_router(router=__multi_guessing_router)
 
 
 @router.get("/")

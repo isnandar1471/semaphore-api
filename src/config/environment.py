@@ -79,5 +79,7 @@ print(f"APP_REFRESH_JWT_EXP_DAYS {type(APP_REFRESH_JWT_EXP_DAYS)} {APP_REFRESH_J
 APP_ENABLE_APIDOC: bool = os.getenv("APP_ENABLE_APIDOC", "false").lower() == "true"
 print(f"APP_ENABLE_APIDOC {type(APP_ENABLE_APIDOC)} {APP_ENABLE_APIDOC}")
 
+APP_LIST_OF_WORDS_FILE_PATH = os.getenv("APP_LIST_OF_WORDS_FILE_PATH", "assets/list-of-words.txt").strip()
+print(f"APP_LIST_OF_WORDS_FILE_PATH {type(APP_LIST_OF_WORDS_FILE_PATH)} {APP_LIST_OF_WORDS_FILE_PATH}")
 
 print("")

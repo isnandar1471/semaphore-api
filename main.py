@@ -6,6 +6,9 @@ import src.config.checker
 src.config.checker.check_directories()
 print("All directories have at least one file.")
 
+src.config.checker.check_word_list()
+print("Word list is valid.")
+
 
 print("")
 print("Load Environment Variables")

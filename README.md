@@ -5,6 +5,7 @@
 
 ## Environment
 - Python 3.10.11
+- MariaDB 10.4
 
 ## Clone the Project
 To clone this project, run the following command:
@@ -75,6 +76,9 @@ To run the application, use:
 ```sh
 python main.py
 ```
+
+## Running the Application with Docker
+This application can also be run in Docker using the provided scripts in the docker folder.
 
 ## Additional Resources
 

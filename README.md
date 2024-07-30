@@ -39,6 +39,11 @@ Important dependencies:
 - `sqlalchemy` requires `pymysql`, but it is not automatically installed.
 - Some dependencies require `pillow`.
 
+## Copy `.env.example` to `.env`, and change the value to what you need
+```shell
+cp .env.example .env
+```
+
 ## Token
 Using JWT for authentication.
 

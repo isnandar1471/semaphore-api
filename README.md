@@ -1,107 +1,95 @@
-catatan pekerjaan
-   
-- orm model belum disetting untuk relasi
-- database migration masih manual alias tidak dilanjutkan
+# Semaphore API
 
-- apa istilahnya untuk di dart yg memasukan suatu type ke T di <T>
+## Work Notes
+- ...
 
-# semaphore-api
-
-# SSH
-
-```sh
-ssh -i "C:\Users\isnandar\Downloads\isnandar-keypair.pem" ubuntu@54.169.244.120
-
-```
-
-## Tested in
-
+## Environment
 - Python 3.10.11
 
-## Clone the project
-
-```
+## Clone the Project
+To clone this project, run the following command:
+```sh
 git clone https://github.com/isnandar1471/semaphore-api.git
 ```
 
-## Install dependensi
-
-```
+## Install Dependencies
+To install all necessary dependencies, run:
+```sh
 pip install -r requirements.txt
 ```
 
-dependensi yang penting:
-- `tensorflow` untuk membaca model yang diimpor
-- `bcrypt` untuk enkripsi password
-- `sqlalchemy` untuk orm
-- `sqlalchemy-seeder` untuk seeder
-- `alembic` untuk database version control
-- `fastapi` untuk rest api
-- `startlette`
-- `uvicorn`
-- `python-dotenv` untuk membaca env file
-- `pymysql`
-- `pydantic`
-- `pyjwt` untuk menggenerate jwt
-- `pillow`
-- `numpy` untuk mengonversi gambar
+Important dependencies:
+- `tensorflow`: For reading imported models.
+- `bcrypt`: For password encryption.
+- `sqlalchemy`: For ORM.
+- `sqlalchemy-seeder`: For seeding.
+- `alembic`: For database version control.
+- `fastapi`: For REST API.
+- `starlette`: For ASGI framework.
+- `uvicorn`: For ASGI server.
+- `python-dotenv`: For reading env files.
+- `pymysql`: For MySQL connection.
+- `pydantic`: For data validation.
+- `pyjwt`: For generating JWT.
+- `pillow`: For image processing.
+- `numpy`: For image conversion.
 
-# Error yang perlu didokumentasikan
+## Error Documentation
+- `sqlalchemy` requires `pymysql`, but it is not automatically installed.
+- Some dependencies require `pillow`.
 
-## `sqlalchemy` membutuhkan `pymysql`, tetapi tidak terinstall otomatis
+## Token
+Using JWT for authentication.
 
-## ???? membutuhkan `pillow`
+## Database
 
+### Migrations
+To create a new migration:
+```sh
+alembic revision -m "<migration_description>"
+```
 
-# Token
+To run migrations up to a specific version:
+```sh
+alembic upgrade <version>
+```
 
-> Menggunakan JWT
-
-# Database
-
-## Migration
-
-### membuat migrasi 
-alembic revision -m <filename...>
-(kayaknya harus pakai str id, buka filename)
-
-### menjalankan migrasi hingga migrasi tertentu
-alembic upgrade <filename...>
-
-### menjalankan migrasi hingga migrasi terakhir
+To run migrations to the latest version:
+```sh
 alembic upgrade head
+```
 
-### menjalankan rollback hingga x migrasi ke belakang
-alembic downgrade <-1>
+To rollback x number of migrations:
+```sh
+alembic downgrade <-x>
+```
 
-## Seeding
-
-```shell
+### Seeding
+To seed the database, run the following command:
+```sh
 python -m src.seeder.seeder
 ```
 
-## Run app
-
-```
+## Running the Application
+To run the application, use:
+```sh
 python main.py
 ```
 
-https://www.tensorflow.org/install/pip
+## Additional Resources
 
-## Auto install all package from requirements.txt
+### Installing All Packages from requirements.txt
+A guide for installing all available packages from requirements.txt can be found [here](https://stackoverflow.com/questions/35802939/install-only-available-packages-using-conda-install-yes-file-requirements-t).
 
-[reference](https://stackoverflow.com/questions/35802939/install-only-available-packages-using-conda-install-yes-file-requirements-t)
-
-## How to use AutoFlake for remove unused import
-
+### Using AutoFlake to Remove Unused Imports
 ```sh
 autoflake --in-place --remove-all-unused-imports <filepath>
 ```
 
-## Hot to use isort for sorting import statements
-
+### Using isort to Sort Import Statements
 ```sh
 isort <filepath>
 ```
 
-# Linter menggunakan pylint
+## Linter Using pylint
+To maintain code quality, use pylint as a linter.

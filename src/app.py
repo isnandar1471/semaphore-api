@@ -15,7 +15,6 @@ class __OpenapiContact(src.schema.base_schema.BaseSchema):
     url: typing.Optional[str]
     email: typing.Optional[str]
 
-
 app = fastapi.FastAPI(
     title="-",
     description="-",

@@ -27,7 +27,7 @@ import src.router.routes.guessing.multi.new.get__
 import src.router.routes.guessing.multi.predict.post__ID
 import src.router.routes.guessing.multi.files.get__ID
 
-__article_router = fastapi.APIRouter(prefix="/article")
+__article_router = fastapi.APIRouter(prefix="/article", tags=["Article"])
 __article_router.include_router(router=src.router.routes.article.get__.router)
 __article_router.include_router(router=src.router.routes.article.get__current.router)
 __article_router.include_router(router=src.router.routes.article.get__ID.router)
@@ -35,7 +35,7 @@ __article_router.include_router(router=src.router.routes.article.post__.router)
 __article_router.include_router(router=src.router.routes.article.patch__ID.router)
 __article_router.include_router(router=src.router.routes.article.delete__ID.router)
 
-__user_router = fastapi.APIRouter(prefix="/user")
+__user_router = fastapi.APIRouter(prefix="/user", tags=["User"])
 __user_router.include_router(prefix="/login", router=src.router.routes.user.token.post__.router)
 __user_router.include_router(prefix="/register", router=src.router.routes.user.register.post__.router)
 
@@ -46,7 +46,7 @@ __check_email_availability_router.include_router(router=src.router.routes.check_
 __check_username_availability_router = fastapi.APIRouter(prefix="/check-username-availability")
 __check_username_availability_router.include_router(router=src.router.routes.check_username_availability.post__.router)
 
-__prediction_multi = fastapi.APIRouter(prefix="/prediction")
+__prediction_multi = fastapi.APIRouter(prefix="/prediction", tags=["Prediction"])
 __prediction_multi.include_router(router=src.router.routes.prediction.post__multi.router)
 __prediction_multi.include_router(router=src.router.routes.prediction.post__feedback.router)
 
@@ -54,12 +54,12 @@ import src.router.routes.guessing.new.get__
 import src.router.routes.guessing.file.get__
 import src.router.routes.guessing.predict.post__ID
 
-__guessing_router = fastapi.APIRouter(prefix="/guessing")
+__guessing_router = fastapi.APIRouter(prefix="/guessing", tags=["Guessing"])
 __guessing_router.include_router(prefix="/new", router=src.router.routes.guessing.new.get__.router)
 __guessing_router.include_router(prefix="/file", router=src.router.routes.guessing.file.get__.router)
 __guessing_router.include_router(prefix="/predict", router=src.router.routes.guessing.predict.post__ID.router)
 
-__multi_guessing_router = fastapi.APIRouter(prefix="/multi-guessing")
+__multi_guessing_router = fastapi.APIRouter(prefix="/multi-guessing", tags=["Guessing"])
 __multi_guessing_router.include_router(prefix="/new", router=src.router.routes.guessing.multi.new.get__.router)
 __multi_guessing_router.include_router(prefix="/predict", router=src.router.routes.guessing.multi.predict.post__ID.router)
 __multi_guessing_router.include_router(prefix="/files", router=src.router.routes.guessing.multi.files.get__ID.router)
@@ -129,4 +129,10 @@ def get_uploaded_image(filename: str):
     if os.path.exists(filepath) and os.path.isfile(filepath):
         return fastapi.responses.FileResponse(filepath, media_type="image/jpeg")
 
-    return {}
+    return fastapi.responses.JSONResponse(
+        content={
+            "message": "File not found",
+            "code": 1,
+        },
+        status_code=404,
+    )

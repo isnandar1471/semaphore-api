@@ -1,0 +1,13 @@
+alembic~=1.12.1
+case_converter~=1.1.0
+fastapi~=0.111.1
+numpy~=2.0.1
+pydantic~=2.8.2
+PyJWT~=2.8.0
+python-dotenv~=1.0.1
+bcrypt
+SQLAlchemy~=2.0.23
+starlette
+tensorflow~=2.10.0
+uvicorn~=0.30.3
+pymysql

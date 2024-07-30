@@ -1,7 +1,3 @@
-"""
-halo
-"""
-
 import typing
 import time
 

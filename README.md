@@ -1,5 +1,5 @@
 catatan pekerjaan
-
+   
 - orm model belum disetting untuk relasi
 - database migration masih manual alias tidak dilanjutkan
 
@@ -30,30 +30,57 @@ git clone https://github.com/isnandar1471/semaphore-api.git
 pip install -r requirements.txt
 ```
 
-# Password Hashing
+dependensi yang penting:
+- `tensorflow` untuk membaca model yang diimpor
+- `bcrypt` untuk enkripsi password
+- `sqlalchemy` untuk orm
+- `sqlalchemy-seeder` untuk seeder
+- `alembic` untuk database version control
+- `fastapi` untuk rest api
+- `startlette`
+- `uvicorn`
+- `python-dotenv` untuk membaca env file
+- `pymysql`
+- `pydantic`
+- `pyjwt` untuk menggenerate jwt
+- `pillow`
+- `numpy` untuk mengonversi gambar
 
-> Menggunakan BCrypt
+# Error yang perlu didokumentasikan
+
+## `sqlalchemy` membutuhkan `pymysql`, tetapi tidak terinstall otomatis
+
+## ???? membutuhkan `pillow`
+
 
 # Token
 
 > Menggunakan JWT
 
-## How to migrate database?
+# Database
 
-(MANUAL)
+## Migration
 
+### membuat migrasi 
 alembic revision -m <filename...>
 (kayaknya harus pakai str id, buka filename)
 
+### menjalankan migrasi hingga migrasi tertentu
 alembic upgrade <filename...>
 
+### menjalankan migrasi hingga migrasi terakhir
+alembic upgrade head
+
+### menjalankan rollback hingga x migrasi ke belakang
 alembic downgrade <-1>
 
-## Run app
+## Seeding
 
+```shell
+python -m src.seeder.seeder
 ```
-uvicorn src.app:app --reload --host 0.0.0.0 --port 8000
-```
+
+## Run app
 
 ```
 python main.py
@@ -64,21 +91,6 @@ https://www.tensorflow.org/install/pip
 ## Auto install all package from requirements.txt
 
 [reference](https://stackoverflow.com/questions/35802939/install-only-available-packages-using-conda-install-yes-file-requirements-t)
-
-```
-FOR /F "delims=~" %f in (requirements.txt) DO conda install --yes "%f"
-```
-
-```
-FOR /F "delims=~" %f in (requirements.txt) DO pip install "%f"
-```
-
-no conda
-pip
-
-- opencv-python
-- pm3
-- python_dotenv
 
 ## How to use AutoFlake for remove unused import
 

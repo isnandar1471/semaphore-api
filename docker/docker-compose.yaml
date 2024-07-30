@@ -1,0 +1,38 @@
+version: "3.9"
+
+name: proyekakhir
+
+services:
+
+  app:
+    build:
+      context: ..
+      dockerfile: ./docker/Dockerfile
+    depends_on:
+      - db
+    networks:
+      - private
+    ports:
+      - "8888:8888"
+    restart: always
+    volumes:
+      - ../:/app
+
+  db:
+    image: mariadb:10.4
+    environment:
+      MARIADB_ALLOW_EMPTY_ROOT_PASSWORD: true
+      MARIADB_DATABASE: proyekakhir
+    networks:
+      - private
+    ports:
+      - "3306:3306"
+    restart: always
+    volumes:
+      - db_data:/var/lib/mysql
+
+networks:
+  private:
+
+volumes:
+  db_data:

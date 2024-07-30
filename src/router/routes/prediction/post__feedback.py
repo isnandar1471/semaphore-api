@@ -18,7 +18,7 @@ import src.config.credential
 router = fastapi.APIRouter()
 
 
-@router.post("/feedback/")
+@router.post("/feedback")
 def feedback_prediction(
     prediction_id: typing.Annotated[str, fastapi.Form()],
     user_feedback: typing.Annotated[src.orm.prediction.user_feedback_enum, fastapi.Form()],

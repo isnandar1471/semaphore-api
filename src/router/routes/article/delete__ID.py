@@ -1,22 +1,35 @@
-import uuid
-import http
-
+from uuid import UUID
 
 import fastapi
+from starlette.responses import JSONResponse
+from starlette.status import (
+    HTTP_500_INTERNAL_SERVER_ERROR,
+    HTTP_200_OK,
+)
 
-
-import src.service.article_service
-
+from src.schema.base_schema import Response
+from src.service.article_service import delete_by_id
 
 router = fastapi.APIRouter()
 
 
 @router.delete("/{id}")
-def delete_article_by_id(id: str, response: fastapi.Response):
-    is_success, error = src.service.article_service.delete_by_id(uuid.UUID(hex=id))
+def delete_article_by_id(id: str):
+    is_success, error = delete_by_id(UUID(hex=id))
 
     if error is not None:
-        response.status_code = http.HTTPStatus.INTERNAL_SERVER_ERROR
-        return is_success
+        return JSONResponse(
+            content=Response(
+                code=1,
+                message="Gagal menghapus artikel",
+            ).model_dump(),
+            status_code=HTTP_500_INTERNAL_SERVER_ERROR,
+        )
 
-    return is_success
+    return JSONResponse(
+        content=Response(
+            code=0,
+            message="Berhasil menghapus artikel",
+        ).model_dump(),
+        status_code=HTTP_200_OK,
+    )

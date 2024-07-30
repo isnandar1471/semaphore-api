@@ -1,18 +1,18 @@
-"""
-halo
-"""
-
 import uuid
 import time
 import typing
-
+from typing import (
+    Tuple,
+    Union,
+    Optional
+)
 
 import src.config.constant
 import src.orm.article
 import src.config.database
 
 
-def select_all(latest_first: bool = False) -> typing.Tuple[bool, typing.List[src.orm.article.ArticleOrm], typing.Union[Exception, None]]:
+def select_all(latest_first: bool = False) -> Tuple[bool, typing.List[src.orm.article.ArticleOrm], Union[Exception, None]]:
     session = src.config.database.SESSION_MAKER()
 
     is_success = False
@@ -20,7 +20,7 @@ def select_all(latest_first: bool = False) -> typing.Tuple[bool, typing.List[src
     error = None
     try:
         query = session.query(src.orm.article.ArticleOrm)
-        if latest_first == True:
+        if latest_first:
             query = query.order_by(src.orm.article.ArticleOrm.created_at.desc())
         result = query.all()
         is_success = True
@@ -32,11 +32,11 @@ def select_all(latest_first: bool = False) -> typing.Tuple[bool, typing.List[src
     return is_success, result, error
 
 
-def select_one_by_id(article_id: str) -> typing.Tuple[bool, typing.Optional[src.orm.article.ArticleOrm], typing.Optional[Exception]]:
+def select_one_by_id(article_id: str) -> Tuple[bool, Optional[src.orm.article.ArticleOrm], Optional[Exception]]:
     session = src.config.database.SESSION_MAKER()
 
     is_success = False
-    result: typing.Optional[src.orm.article.ArticleOrm] = None
+    result: Optional[src.orm.article.ArticleOrm] = None
     error = None
     try:
         result = session.query(src.orm.article.ArticleOrm).get(article_id)
@@ -49,7 +49,7 @@ def select_one_by_id(article_id: str) -> typing.Tuple[bool, typing.Optional[src.
     return is_success, result, error
 
 
-def select_latest_article(total: int) -> typing.Tuple[bool, typing.List[src.orm.article.ArticleOrm], typing.Optional[Exception]]:
+def select_latest_article(total: int) -> Tuple[bool, typing.List[src.orm.article.ArticleOrm], Optional[Exception]]:
     session = src.config.database.SESSION_MAKER()
 
     is_success = False
@@ -68,15 +68,15 @@ def select_latest_article(total: int) -> typing.Tuple[bool, typing.List[src.orm.
 
 def update_one_by_id(
     article_id: uuid.UUID,
-    title: typing.Union[str, None],
-    cover_url: typing.Union[str, None],
-    description: typing.Union[str, None],
-    article_url: typing.Union[str, None],
-) -> typing.Tuple[bool, typing.Union[src.orm.article.ArticleOrm, None], typing.Union[Exception, None]]:
+    title: Union[str, None],
+    cover_url: Union[str, None],
+    description: Union[str, None],
+    article_url: Union[str, None],
+) -> Tuple[bool, Union[src.orm.article.ArticleOrm, None], Union[Exception, None]]:
     session = src.config.database.SESSION_MAKER()
 
     is_success = False
-    current_article: typing.Union[src.orm.article.ArticleOrm, None] = None
+    current_article: Union[src.orm.article.ArticleOrm, None] = None
     error = None
     try:
         current_article = session.query(src.orm.article.ArticleOrm).get(article_id)
@@ -116,7 +116,7 @@ def insert(
     cover_url,
     description,
     article_url,
-) -> typing.Tuple[bool, src.orm.article.ArticleOrm, typing.Union[Exception, None]]:
+) -> Tuple[bool, src.orm.article.ArticleOrm, Union[Exception, None]]:
     session = src.config.database.SESSION_MAKER()
 
     is_success = False
@@ -130,7 +130,7 @@ def insert(
         created_at=int(time.time()),
         updated_at=None,
     )
-    error: typing.Union[Exception, None] = None
+    error: Union[Exception, None] = None
     try:
         session.add(current_article)
         session.commit()
@@ -144,13 +144,13 @@ def insert(
     return is_success, current_article, error
 
 
-def delete_by_id(article_id: uuid.UUID) -> typing.Tuple[bool, typing.Union[Exception, None]]:
+def delete_by_id(article_id: uuid.UUID) -> Tuple[bool, Union[Exception, None]]:
     session = src.config.database.SESSION_MAKER()
 
     is_success = False
-    error: typing.Optional[Exception] = None
+    error: Optional[Exception] = None
     try:
-        article_to_delete: typing.Union[src.orm.article.ArticleOrm, None] = session.query(src.orm.article.ArticleOrm).get(article_id)
+        article_to_delete: Union[src.orm.article.ArticleOrm, None] = session.query(src.orm.article.ArticleOrm).get(article_id)
         if article_to_delete is not None:
             session.delete(article_to_delete)
             session.commit()

@@ -36,7 +36,7 @@ def post_article(
 
     if error is not None:
         return fastapi.responses.JSONResponse(
-            content=-__Out_Article(
+            content=__Out_Article(
                 message=f"server mengalami error, {error.args}",
                 code=1,
                 data=None,

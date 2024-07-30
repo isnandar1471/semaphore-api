@@ -37,16 +37,23 @@ def new_guessing(x_apikey: typing.Annotated[typing.Union[str, None], fastapi.Hea
             )
             payload = src.config.credential.PayloadStructure.model_validate(pl)
         except jwt.exceptions.ExpiredSignatureError as e:
-            return {
-                "message": "X-API-KEY is expired",
-                "code": 1,
-            }
+            return fastapi.responses.JSONResponse(
+                content=OutNewGuessing(
+                    message="X-API-KEY is expired",
+                    code=1,
+                    data=None,
+                ).model_dump(),
+                status_code=400,
+            )
         except Exception as e:
-            print("🚀 ~ file: post__multi.py:43 ~ e:", e)
-            return {
-                "message": "X-API-KEY doesnt valid",
-                "code": 2,
-            }
+            return fastapi.responses.JSONResponse(
+                content=OutNewGuessing(
+                    message="X-API-KEY doesnt valid",
+                    code=2,
+                    data=None,
+                ).model_dump(),
+                status_code=400,
+            )
 
         is_success, user, error = src.service.user_service.find_user_by_username(username=payload.username)
         user_inst = user

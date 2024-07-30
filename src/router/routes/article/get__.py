@@ -1,63 +1,78 @@
-import typing
-import http
+from typing import Union, List
+
+from fastapi import APIRouter
+from starlette.responses import JSONResponse
+from starlette.status import HTTP_200_OK, HTTP_500_INTERNAL_SERVER_ERROR, HTTP_400_BAD_REQUEST
+
+from src.orm.article import ArticleSchema
+from src.schema.base_schema import Response as BaseResponse
+from src.service.article_service import select_all
 
 
-import fastapi
+class OutGetAllArticle(BaseResponse):
+    data: Union[List[ArticleSchema], None]
 
 
-import src.service.article_service
-import src.orm.article
-import src.service.mapping
-import src.schema.base_schema
+router = APIRouter()
 
 
-class OutGetAllArticle(src.schema.base_schema.Response):
-    data: typing.Union[typing.List[src.orm.article.ArticleSchema], None]
+@router.get("/", responses={
+    HTTP_200_OK: {
+        # "model": OutGetAllArticle,
+        "content": {
+            "application/json": {
+                # "schema": {
+                    "type": "object",
+                    "properties": {
+                        "message": {"type": "string"},
+                        "code": {"type": "integer"},
+                        "data": {"type": "array"},
+                    }
+                # }
+            }
+        }
 
-
-router = fastapi.APIRouter()
-
-
-@router.get("/")
+    },
+})
 def get_all_article():
-    is_success, all_articles, error = src.service.article_service.select_all(latest_first=True)
+    is_success, all_articles, error = select_all(latest_first=True)
 
-    if error != None:
-        return fastapi.responses.JSONResponse(
-            content=OutGetAllArticle(
-                message=f"server error: {error.args}",
-                code=1,
-                data=None,
-            ).model_dump(),
-            status_code=http.HTTPStatus.INTERNAL_SERVER_ERROR,
+    if error:
+        return JSONResponse(
+            {
+                "message": f"server error: {error.args}",
+                "code": 1,
+                "data": None,
+            },
+            HTTP_500_INTERNAL_SERVER_ERROR,
         )
 
-    if is_success == False:
-        return fastapi.responses.JSONResponse(
-            content=OutGetAllArticle(
-                message="gagal mendapatkan article",
-                code=2,
-                data=None,
-            ).model_dump(),
-            status_code=400,
+    if not is_success:
+        return JSONResponse(
+            {
+                "message": "gagal mendapatkan article",
+                "code": 2,
+                "data": None,
+            },
+            HTTP_400_BAD_REQUEST,
         )
 
     returned_article = []
 
     for article_orm in all_articles:
-        article_schema: typing.Union[src.orm.article.ArticleSchema, None] = None
+        article_schema: Union[ArticleSchema, None] = None
         try:
-            article_schema = src.orm.article.ArticleSchema.model_validate(article_orm)
+            article_schema = ArticleSchema.model_validate(article_orm)
         except Exception as e:
             print("🚀 ~ file: get__.py:55 ~ e.args:", e)
 
         returned_article.append(article_schema)
 
-    return fastapi.responses.JSONResponse(
-        content=OutGetAllArticle(
-            message="berhasil mendapatkan artikel",
-            code=0,
-            data=returned_article,
-        ).model_dump(),
-        status_code=http.HTTPStatus.OK,
+    return JSONResponse(
+        {
+            "message": "berhasil mendapatkan artikel",
+            "code": 0,
+            "data": returned_article,
+        },
+        HTTP_200_OK,
     )

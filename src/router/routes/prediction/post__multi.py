@@ -48,16 +48,21 @@ def predict_images(
             )
             payload = src.config.credential.PayloadStructure.model_validate(pl)
         except jwt.exceptions.ExpiredSignatureError as e:
-            return {
-                "message": "X-API-KEY is expired",
-                "code": 1,
-            }
+            return fastapi.responses.JSONResponse(
+                content={
+                    "message": "X-API-KEY is expired",
+                    "code": 1,
+                },
+                status_code=400,
+            )
         except Exception as e:
-            print("🚀 ~ file: post__multi.py:43 ~ e:", e)
-            return {
-                "message": "X-API-KEY doesnt valid",
-                "code": 2,
-            }
+            return fastapi.responses.JSONResponse(
+                content={
+                    "message": "X-API-KEY doesnt valid",
+                    "code": 2,
+                },
+                status_code=400,
+            )
 
     file_id = uuid.uuid4()
 
@@ -133,4 +138,10 @@ def get_uploaded_image(filename: str):
     if os.path.exists(filepath) and os.path.isfile(filepath):
         return fastapi.responses.FileResponse(filepath, media_type="image/jpeg")
 
-    return {}
+    return fastapi.responses.JSONResponse(
+        content={
+            "message": "File not found",
+            "code": 1,
+        },
+        status_code=404,
+    )

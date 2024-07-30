@@ -15,4 +15,4 @@ print("Load Environment Variables")
 PORT = src.config.environment.APP_SERVER_PORT
 
 if __name__ == "__main__":
-    uvicorn.run("src.app:app", host="0.0.0.0", port=PORT, reload=True)
+    uvicorn.run("src.app:app", host="0.0.0.0", port=PORT, reload=False)

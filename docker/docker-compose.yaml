@@ -26,7 +26,7 @@ services:
     networks:
       - private
     ports:
-      - "3306:3306"
+      - "55555:3306"
     restart: always
     volumes:
       - db_data:/var/lib/mysql

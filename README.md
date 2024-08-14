@@ -1,5 +1,7 @@
 # Semaphore API
 
+![](./docs/img/mockup.png)
+
 ## Work Notes
 - ...
 
